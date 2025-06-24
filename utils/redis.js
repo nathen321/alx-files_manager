@@ -7,11 +7,13 @@ class RedisClient {
     }).on('error', (error) => {
       console.log(error);
     });
+    this.client.connect()
+      .then(() => console.log('Redis connected'))
+      .catch(console.error);
   }
 
   isAlive() {
     try {
-      this.client.connect();
       return this.client.ping() === 'PONG';
     } catch (error) {
       return false;
@@ -20,7 +22,6 @@ class RedisClient {
 
   async get(key) {
     try {
-      await this.client.connect();
       const value = await this.client.get(key);
       return value;
     } catch (err) {
@@ -31,7 +32,6 @@ class RedisClient {
 
   async set(key, value, duration) {
     try {
-      await this.client.connect();
       await this.client.setEx(key, duration, JSON.stringify(value));
     } catch (err) {
       console.log('Redis Client Error', err);
@@ -40,7 +40,6 @@ class RedisClient {
 
   async del(key) {
     try {
-      await this.client.connect();
       await this.client.del(key);
     } catch (err) {
       console.log('Redis Client Error', err);

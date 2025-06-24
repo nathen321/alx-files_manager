@@ -10,11 +10,7 @@ class RedisClient {
   }
 
   isAlive() {
-    try {
-      return this.client.ping() === 'PONG';
-    } catch (error) {
-      return false;
-    }
+    return this.client.connected;
   }
 
   async get(key) {
@@ -29,7 +25,7 @@ class RedisClient {
 
   async set(key, value, duration) {
     try {
-      await this.client.setEx(key, duration, JSON.stringify(value));
+      await this.client.set(key, value, 'EX', duration);
     } catch (err) {
       console.log('Redis Client Error', err);
     }

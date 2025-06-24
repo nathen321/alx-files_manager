@@ -14,29 +14,16 @@ class RedisClient {
   }
 
   async get(key) {
-    try {
-      const value = await this.client.get(key);
-      return value;
-    } catch (err) {
-      console.log('Redis Client Error', err);
-      return null;
-    }
+    const value = this.client.get(key);
+    return value;
   }
 
   async set(key, value, duration) {
-    try {
-      await this.client.set(key, value, 'EX', duration);
-    } catch (err) {
-      console.log('Redis Client Error', err);
-    }
+    this.client.set(key, value, 'EX', duration);
   }
 
   async del(key) {
-    try {
-      await this.client.del(key);
-    } catch (err) {
-      console.log('Redis Client Error', err);
-    }
+    await this.client.del(key);
   }
 }
 

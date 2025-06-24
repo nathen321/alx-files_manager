@@ -11,7 +11,6 @@ class RedisClient {
       this.connected = false;
       console.error('Redis error:', err);
     });
-    this.client.connect().catch(console.error);
   }
 
   isAlive() {
